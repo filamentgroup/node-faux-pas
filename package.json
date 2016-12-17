@@ -1,5 +1,5 @@
 {
-  "name": "node-faux-pas",
+  "name": "node-fg-faux-pas",
   "version": "0.0.0",
   "description": "A command line utility to run faux-pas faux web font detector.",
   "main": "index.js",
