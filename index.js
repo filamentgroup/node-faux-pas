@@ -25,13 +25,13 @@ function launchChrome() {
 	});
 }
 
-function addScript(Runtime) {
+function addScript(Runtime, testUrl) {
 	const compareJs = `async function compare() {
 		await document.fonts.ready;
 
 		var FP = new FauxPas( window, {
 			console: true,
-			highlights: true,
+			highlights: false,
 			mismatches: true
 		});
 
@@ -48,11 +48,11 @@ function addScript(Runtime) {
 		awaitPromise: true
 	}).then(res1 => {
 		// console.log( res1 );
-		readReport(res1.result.value);
+		readReport(res1.result.value, testUrl);
 	});
 }
 
-function readReport(report) {
+function readReport(report, testUrl) {
 	var errorCount = report.errorCount;
 	var warningCount = report.warningCount;
 
@@ -67,11 +67,15 @@ function readReport(report) {
 	if (!errorCount && !warningCount) {
 		console.log(
 			chalk.underline(PLUGIN_NAME),
+			"for",
+			testUrl,
 			chalk.green("OK: No faux web fonts or mismatches detected.")
 		);
 	} else {
 		console.log(
 			chalk.underline(PLUGIN_NAME),
+			"for",
+			testUrl,
 			chalk.black.bgRed(errorCount + " error" + (errorCount != 1 ? "s" : "")) +
 				" and " +
 				chalk.black.bgYellow(warningCount + " mismatch" + (warningCount != 1 ? "es" : "")) +
@@ -120,12 +124,12 @@ if (options.help) {
 			const { Page, Runtime } = protocol;
 
 			Promise.all([Page.enable(), Runtime.enable()]).then(() => {
-				console.log(chalk.underline(PLUGIN_NAME + ":"), "requesting " + options.url);
+				console.log(PLUGIN_NAME + ": requesting " + options.url);
 
 				Page.navigate({ url: options.url });
 
 				Page.loadEventFired(() => {
-					addScript(Runtime).then(() => {
+					addScript(Runtime, options.url).then(() => {
 						protocol.close();
 						launcher.kill();
 					});
