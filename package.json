@@ -1,6 +1,6 @@
 {
   "name": "node-faux-pas",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A command line utility to test a URL for faux web font rendering and mismatched web font code.",
   "main": "index.js",
   "scripts": {
