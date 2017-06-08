@@ -56,7 +56,7 @@ function readReport(report, testUrl) {
 	var errorCount = report.errorCount;
 	var warningCount = report.warningCount;
 
-	report.lines.forEach(function(line) {
+	report.lines.forEach(line => {
 		if (line.level === "error") {
 			console.log("* " + chalk.red(line.output));
 		} else if (line.level === "warn") {
@@ -72,15 +72,23 @@ function readReport(report, testUrl) {
 			chalk.green("OK: No faux web fonts or mismatches detected.")
 		);
 	} else {
+		var errorStr = errorCount + " error" + (errorCount != 1 ? "s" : "");
+		var warningStr = warningCount + " mismatch" + (warningCount != 1 ? "es" : "");
 		console.log(
 			chalk.underline(PLUGIN_NAME),
 			"for",
 			testUrl,
-			chalk.black.bgRed(errorCount + " error" + (errorCount != 1 ? "s" : "")) +
-				" and " +
-				chalk.black.bgYellow(warningCount + " mismatch" + (warningCount != 1 ? "es" : "")) +
-				", use the faux-pas bookmarklet for visual feedback."
+			errorCount ? chalk.black.bgRed(errorStr) : errorStr,
+			"and",
+			warningCount ? chalk.black.bgYellow(warningStr) : warningStr
 		);
+		console.log(
+			"\nFor additional help, use the faux-pas bookmarklet (https://filamentgroup.github.io/faux-pas/dist/demo.html) to highlight the elements on the page."
+		);
+
+		if (errorCount) {
+			process.exitCode = 1;
+		}
 	}
 }
 

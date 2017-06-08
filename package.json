@@ -4,7 +4,9 @@
   "description": "A command line utility to test a URL for faux web font rendering and mismatched web font code.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "demo": "node index.js https://filamentgroup.github.io/faux-pas/dist/demo.html",
+    "demo-fg": "node index.js https://filamentgroup.com/"
   },
   "bin": {
     "fauxpas": "./index.js"
