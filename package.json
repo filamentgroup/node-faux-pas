@@ -1,6 +1,6 @@
 {
   "name": "node-faux-pas",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A command line utility to test a URL for faux web font rendering and mismatched web font code.",
   "main": "index.js",
   "scripts": {
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/zachleat/node-faux-pas.git"
+    "url": "git+ssh://git@github.com/filamentgroup/node-faux-pas.git"
   },
   "author": "zachleat <zachleatherman@gmail.com> (http://zachleat.com/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zachleat/node-faux-pas/issues"
+    "url": "https://github.com/filamentgroup/node-faux-pas/issues"
   },
-  "homepage": "https://github.com/zachleat/node-faux-pas#readme",
+  "homepage": "https://github.com/filamentgroup/node-faux-pas#readme",
   "dependencies": {
     "chalk": "^1.1.3",
     "chrome-remote-interface": "^0.23.2",
