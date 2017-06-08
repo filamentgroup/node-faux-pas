@@ -4,6 +4,7 @@ const chrome = require("chrome-remote-interface");
 const chalk = require("chalk");
 const commandLineArgs = require("command-line-args");
 const getUsage = require("command-line-usage");
+const validUrl = require("valid-url");
 const fs = require("fs");
 const pkg = require("./package.json");
 
@@ -67,8 +68,9 @@ function readReport(report, testUrl) {
 	if (!errorCount && !warningCount) {
 		console.log(
 			chalk.underline(PLUGIN_NAME),
-			"for",
+			":",
 			testUrl,
+			"is",
 			chalk.green("OK: No faux web fonts or mismatches detected.")
 		);
 	} else {
@@ -76,8 +78,9 @@ function readReport(report, testUrl) {
 		var warningStr = warningCount + " mismatch" + (warningCount != 1 ? "es" : "");
 		console.log(
 			chalk.underline(PLUGIN_NAME),
-			"for",
+			":",
 			testUrl,
+			"has",
 			errorCount ? chalk.black.bgRed(errorStr) : errorStr,
 			"and",
 			warningCount ? chalk.black.bgYellow(warningStr) : warningStr
@@ -124,8 +127,8 @@ if (options.help) {
 			}
 		])
 	);
-} else if (!options.url) {
-	console.error(PLUGIN_NAME, "Error: URL parameter missing. Use -h for help.");
+} else if (!options.url || !validUrl.isUri(options.url)) {
+	console.error(PLUGIN_NAME, "Error: URL parameter invalid or missing. Did you forget http:// or https://? Use -h for help.");
 } else {
 	launchChrome().then(launcher => {
 		chrome(protocol => {
