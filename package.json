@@ -4,7 +4,7 @@
   "description": "A command line utility to test a URL for faux web font rendering and mismatched web font code.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --delay",
     "demo": "node index.js https://filamentgroup.github.io/faux-pas/dist/demo.html",
     "demo-fg": "node index.js https://filamentgroup.com/"
   },
@@ -26,8 +26,19 @@
     "chrome-remote-interface": "^0.23.2",
     "command-line-args": "^4.0.6",
     "command-line-usage": "^4.0.0",
-    "fg-faux-pas": "^1.0.4",
+    "connect": "^3.6.2",
+    "fg-faux-pas": "^1.0.5",
+    "fs-extra": "^3.0.1",
+    "join-path": "^1.1.1",
     "lighthouse": "2.0.0",
+    "serve-static": "^1.12.3",
     "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "mocha": "^3.4.2"
+  },
+  "NFP_VARS": {
+    "port": 8114,
+    "testStartupMessage": "fauxpas Mocha test server running."
   }
 }

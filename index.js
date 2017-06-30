@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const commandLineArgs = require("command-line-args");
 const getUsage = require("command-line-usage");
 const validUrl = require("valid-url");
+const fs = require("fs-extra");
 const NodeFauxPas = require("./NodeFauxPas.js");
 const pkg = require("./package.json");
 
@@ -27,16 +28,14 @@ function readReport(report) {
 
 	if (!errorCount && !warningCount) {
 		console.log(
-			chalk.underline(PLUGIN_NAME),
-			":",
+			chalk.underline(PLUGIN_NAME) + ":",
 			chalk.green("OK: No faux web fonts or mismatches detected.")
 		);
 	} else {
 		var errorStr = errorCount + " error" + (errorCount != 1 ? "s" : "");
 		var warningStr = warningCount + " mismatch" + (warningCount != 1 ? "es" : "");
 		console.log(
-			chalk.underline(PLUGIN_NAME),
-			":",
+			chalk.underline(PLUGIN_NAME) + ":",
 			errorCount ? chalk.black.bgRed(errorStr) : errorStr,
 			"and",
 			warningCount ? chalk.black.bgYellow(warningStr) : warningStr
@@ -55,7 +54,7 @@ const commandLineOptions = [
 	{
 		name: "url",
 		alias: "u",
-		description: "The url to test.",
+		description: "The url or path to an HTML file to test.",
 		defaultOption: true,
 		type: String,
 		typeLabel: "[underline]{url}"
@@ -95,14 +94,18 @@ if (options.help) {
 			}
 		])
 	);
-} else if (!options.url || !validUrl.isUri(options.url)) {
+} else if (!options.url) {
+	console.error(PLUGIN_NAME, "Error: URL parameter missing. Use -h for help.");
+} else if (!validUrl.isUri(options.url) && !fs.pathExistsSync(options.url)) {
 	console.error(
 		PLUGIN_NAME,
-		"Error: URL parameter invalid or missing. Did you forget http:// or https://? Use -h for help."
+		"Error: URL parameter needs to be a valid URL or path to an HTML file."
 	);
 } else {
 	console.log(PLUGIN_NAME + ": requesting " + options.url);
 
-	var nFP = new NodeFauxPas(options.url, options.mismatches, readReport);
-	nFP.request();
+	new NodeFauxPas(options.url, options.mismatches, function(report) {
+		readReport(report);
+		process.exit();
+	});
 }
