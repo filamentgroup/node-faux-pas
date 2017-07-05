@@ -3,8 +3,9 @@ const chrome = require("chrome-remote-interface");
 const fs = require("fs-extra");
 const joinpath = require("join-path");
 const validUrl = require("valid-url");
-const fauxPasLibJs = fs.readFileSync("node_modules/fg-faux-pas/faux-pas.js", { encoding: "utf-8" });
-const LOCALHOST = "http://localhost"
+const fauxPasLibPath = require.resolve("fg-faux-pas");
+const fauxPasLibJs = fs.readFileSync(fauxPasLibPath, { encoding: "utf-8" });
+const LOCALHOST = "http://localhost";
 const LOCALHOST_PORT = 8111;
 
 function NodeFauxPas(url, showMismatches, reportCallback) {
