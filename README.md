@@ -1,3 +1,5 @@
+:warning: This project is archived and the repository is no longer maintained.
+
 # node-faux-pas
 
 A command line utility to test a URL for faux web font rendering and mismatched web font code.
